@@ -33,13 +33,13 @@ def number_guess(player):
 
 def game(name, records_dic):
     stop = False
-    print(records_dic)
+    # print(records_dic)
     if len(records_dic) > 0:
         for player in records_dic:
             if stop:
                 break
             if player['name'] == str(name):
-                print(player)
+                # print(player)
                 finished_player = number_guess(player)
                 player['latest_perf'] = finished_player[0]
                 player['times'] = finished_player[1]
@@ -47,13 +47,13 @@ def game(name, records_dic):
                 player['best_perf'] = str(
                     min(int(finished_player[0]), int(player['best_perf'])))
                 stop = True
-                print(player)
-                print('游戏结束')
+                # print(player)
+                print('end of the game')
             else:
                 player = {'name': name, 'latest_perf': '0', 'times': '0',
                           'ave_perf':
                               '0', 'best_perf': '0'}
-                print(player)
+                # print(player)
                 finished_player = number_guess(player)
                 player['latest_perf'] = finished_player[0]
                 player['times'] = finished_player[1]
@@ -61,22 +61,22 @@ def game(name, records_dic):
                 player['best_perf'] = finished_player[0]
                 records_dic.append(player)
                 stop = True
-                print(player)
-                print('游戏结束')
+                # print(player)
+                print('end of the game')
     else:
         player = {'name': name, 'latest_perf': '0', 'times': '0',
                   'ave_perf':
                       '0', 'best_perf': '0'}
-        print(player)
+        # print(player)
         finished_player = number_guess(player)
         player['latest_perf'] = finished_player[0]
         player['times'] = finished_player[1]
         player['ave_perf'] = finished_player[2]
         player['best_perf'] = finished_player[0]
         records_dic.append(player)
-        print(player)
-        print('游戏结束')
-        print(records_dic)
+        # print(player)
+        print('end of the game')
+        # print(records_dic)
     return records_dic
 
 
@@ -89,7 +89,7 @@ def file_read():
                   'x') as f:  # 没有记录表则新建一个，表头为用户名，最新成绩，游玩次数，平均成绩，最好成绩
             title = 'name latest_perf times ave_perf best_perf\n'
             f.writelines(title)
-            print('创建新表单')
+            print('creating new file')
             f.close()
     finally:  # 打开记录表，读取表中已有的数据。
         with open('records.txt', 'r') as fin:
@@ -99,8 +99,8 @@ def file_read():
                 ''.join(line)
                 line = line.split(' ')
                 records.append(line)
-            print('表单读取ok')
-            print(records)
+            # print('表单读取ok')
+            # print(records)
     return records
 
 
@@ -111,13 +111,13 @@ if __name__ == '__main__':
     records = file_read()
     records_dic = []
     if len(records) == 1:
-        print('无数据')
+        print('generating new record file')
     else:
         dic_ele = records.pop(0)
         for player in records:  # 对读取的数据进行处理，先将表中的已有的player变为字典储存在list中
             player_dic = dict(zip(dic_ele, player))
             records_dic.append(player_dic)
-    print('原始表单已转化为字典')
+    # print('原始表单已转化为字典')
     new_record = game(name, records_dic)  # new_record 储存了所有玩家的信息
     while not exit_game:
         again = input('Play Again?(Type Y to Play one more time):')
@@ -125,7 +125,14 @@ if __name__ == '__main__':
             new_record = game(name, new_record)
         else:
             exit_game = True
-    print(new_record)
+    result_player = new_record[0]
+    result = "you have played %s times with average performance %s times." \
+             "Your latest performance is %s times, your best performance is " \
+             "%s times" % \
+             (result_player['times'], result_player['ave_perf'], result_player[
+                 'latest_perf'], result_player[
+                  'best_perf'])
+    print(result)
     title = 'name latest_perf times ave_perf best_perf\n'
     result_lst = []
     for player in new_record:
@@ -133,7 +140,7 @@ if __name__ == '__main__':
         for value in player.values():
             result.append(value)
         result_lst.append(result)
-    print(result_lst)
+    # print(result_lst)
     with open('records.txt', 'w') as fin:
         fin.writelines(title)
         for result in result_lst:
