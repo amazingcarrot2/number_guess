@@ -1,10 +1,9 @@
-import requests, re
+import requests
 
 
 def number_guess(player):
-    # url = 'https://python666.cn/cls/number/guess/'
-    # num = int(requests.get(url).text)
-    num = 6
+    url = 'https://python666.cn/cls/number/guess/'
+    num = int(requests.get(url).text)
     guess = input('guess a number between 0 and 100:')
     latest_pef = 0
     end_game = False
@@ -105,10 +104,8 @@ def file_read():
     return records
 
 
-
 if __name__ == '__main__':
     name = input('please input your name:')
-    # name = 'suki'
     # 文件读取
     exit_game = False
     records = file_read()
