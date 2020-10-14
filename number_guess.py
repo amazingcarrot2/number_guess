@@ -2,8 +2,9 @@ import requests
 
 
 def number_guess(player):
-    url = 'https://python666.cn/cls/number/guess/'
-    num = int(requests.get(url).text)
+    # url = 'https://python666.cn/cls/number/guess/'
+    # num = int(requests.get(url).text)
+    num = 6
     guess = input('guess a number between 0 and 100:')
     latest_pef = 0
     end_game = False
@@ -34,35 +35,32 @@ def number_guess(player):
 def game(name, records_dic):
     stop = False
     # print(records_dic)
-    if len(records_dic) > 0:
-        for player in records_dic:
-            if stop:
-                break
-            if player['name'] == str(name):
-                # print(player)
-                finished_player = number_guess(player)
-                player['latest_perf'] = finished_player[0]
-                player['times'] = finished_player[1]
-                player['ave_perf'] = finished_player[2]
-                player['best_perf'] = str(
-                    min(int(finished_player[0]), int(player['best_perf'])))
-                stop = True
-                # print(player)
-                print('end of the game')
-            else:
-                player = {'name': name, 'latest_perf': '0', 'times': '0',
-                          'ave_perf':
-                              '0', 'best_perf': '0'}
-                # print(player)
-                finished_player = number_guess(player)
-                player['latest_perf'] = finished_player[0]
-                player['times'] = finished_player[1]
-                player['ave_perf'] = finished_player[2]
-                player['best_perf'] = finished_player[0]
-                records_dic.append(player)
-                stop = True
-                # print(player)
-                print('end of the game')
+    exist_player = []
+    for player in records_dic:
+        exist_player.append(player['name'])
+    if len(exist_player) > 0:
+        if str(name) in exist_player:
+            finished_player = number_guess(player)
+            player['latest_perf'] = finished_player[0]
+            player['times'] = finished_player[1]
+            player['ave_perf'] = finished_player[2]
+            player['best_perf'] = str(
+                min(int(finished_player[0]), int(player['best_perf'])))
+            # print(player)
+            print('end of the game')
+        else:
+            player = {'name': name, 'latest_perf': '0', 'times': '0',
+                      'ave_perf':
+                          '0', 'best_perf': '0'}
+            # print(player)
+            finished_player = number_guess(player)
+            player['latest_perf'] = finished_player[0]
+            player['times'] = finished_player[1]
+            player['ave_perf'] = finished_player[2]
+            player['best_perf'] = finished_player[0]
+            records_dic.append(player)
+            # print(player)
+            print('end of the game')
     else:
         player = {'name': name, 'latest_perf': '0', 'times': '0',
                   'ave_perf':
@@ -125,7 +123,7 @@ if __name__ == '__main__':
             new_record = game(name, new_record)
         else:
             exit_game = True
-    result_player = new_record[0]
+    result_player = new_record[-1]
     result = "you have played %s times with average performance %s times." \
              "Your latest performance is %s times, your best performance is " \
              "%s times" % \

@@ -1,2 +1,4 @@
 name latest_perf times ave_perf best_perf
-suki 1 7 4.43 1
+suki 3 2 2.0 1
+ayemos 2 2 3.5 2
+kk 2 1 2.0 2
